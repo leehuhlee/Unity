@@ -37,6 +37,18 @@ public class PlayerController : MonoBehaviour
                 transform.LookAt(_desPos);
             }
         }
+
+        if (_moveToDest)
+        {
+            Animator anim = GetComponent<Animator>();
+            anim.Play("RUN");
+        }
+        else
+        {
+            Animator anim = GetComponent<Animator>();
+            anim.Play("WAIT");
+        }
+        
         
     }
 
@@ -68,9 +80,6 @@ public class PlayerController : MonoBehaviour
 
     void OnMouseClicked(Define.MouseEvent evt)
     {
-        if (evt != Define.MouseEvent.Click)
-            return;
-
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         Debug.DrawRay(Camera.main.transform.position, ray.direction * 100.0f, Color.red, 1.0f);
