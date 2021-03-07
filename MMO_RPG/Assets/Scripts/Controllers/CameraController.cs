@@ -20,9 +20,9 @@ public class CameraController : MonoBehaviour
 
     void LateUpdate()
     {
+        RaycastHit hit;
         if (_mode == Define.CameraMode.QuaterView)
         {
-            RaycastHit hit;
             if(Physics.Raycast(_player.transform.position, _delta, out hit, _delta.magnitude, LayerMask.GetMask("Wall")))
             {
                 float dist = (hit.point - _player.transform.position).magnitude * 0.8f;
