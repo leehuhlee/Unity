@@ -72,6 +72,8 @@
     <Compile Include="Assets\Scripts\Managers\UIManager.cs" />
     <Compile Include="Assets\Scripts\UI\Popup\UI_Button.cs" />
     <Compile Include="Assets\Scripts\UI\Popup\UI_Popup.cs" />
+    <Compile Include="Assets\Scripts\UI\Scene\UI_Inven.cs" />
+    <Compile Include="Assets\Scripts\UI\Scene\UI_Inven_Item.cs" />
     <Compile Include="Assets\Scripts\UI\Scene\UI_Scene.cs" />
     <Compile Include="Assets\Scripts\UI\UI_Base.cs" />
     <Compile Include="Assets\Scripts\UI\UI_EventHandler.cs" />
@@ -82,6 +84,7 @@
     <None Include="Assets\Resources\Art\UnityChan\Shader\Unitychan_chara_akarami_blend.shader" />
     <None Include="Assets\Resources\Art\UnityChan\Shader\Unitychan_chara_hair_ds.shader" />
     <None Include="Assets\Resources\Art\UnityChan\Shader\Unitychan_chara_hada.shader" />
+    <None Include="Assets\Textures and Sprites\SF UI\Background\LICENSE.txt" />
     <None Include="Assets\Resources\Art\UnityChan\Shader\Unitychan_chara_fuku_ds.shader" />
     <None Include="Assets\Resources\Art\UnityChan\Shader\Unitychan_chara_eyelash_blend.shader" />
     <None Include="Assets\Resources\Art\UnityChan\Sounds\unity-chan_voice_list.txt" />
@@ -652,6 +655,9 @@
     </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>C:/Users/leehu/Desktop/Unity/MMO_RPG/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.2D.Sprite.Editor">
+      <HintPath>C:/Users/leehu/Desktop/Unity/MMO_RPG/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup></ItemGroup>
