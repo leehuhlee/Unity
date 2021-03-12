@@ -70,11 +70,12 @@
     <Compile Include="Assets\Scripts\Managers\Managers.cs" />
     <Compile Include="Assets\Scripts\Managers\ResourceManager.cs" />
     <Compile Include="Assets\Scripts\Managers\UIManager.cs" />
+    <Compile Include="Assets\Scripts\Scenes\BaseScene.cs" />
     <Compile Include="Assets\Scripts\UI\Popup\UI_Button.cs" />
     <Compile Include="Assets\Scripts\UI\Popup\UI_Popup.cs" />
     <Compile Include="Assets\Scripts\UI\Scene\UI_Inven.cs" />
-    <Compile Include="Assets\Scripts\UI\Scene\UI_Inven_Item.cs" />
     <Compile Include="Assets\Scripts\UI\Scene\UI_Scene.cs" />
+    <Compile Include="Assets\Scripts\UI\SubItem\UI_Inven_Item.cs" />
     <Compile Include="Assets\Scripts\UI\UI_Base.cs" />
     <Compile Include="Assets\Scripts\UI\UI_EventHandler.cs" />
     <Compile Include="Assets\Scripts\Utils\Define.cs" />
@@ -650,14 +651,14 @@
     <Reference Include="Unity.Rider.Editor">
       <HintPath>C:/Users/leehu/Desktop/Unity/MMO_RPG/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.2D.Sprite.Editor">
+      <HintPath>C:/Users/leehu/Desktop/Unity/MMO_RPG/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.TextMeshPro">
       <HintPath>C:/Users/leehu/Desktop/Unity/MMO_RPG/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>C:/Users/leehu/Desktop/Unity/MMO_RPG/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.Sprite.Editor">
-      <HintPath>C:/Users/leehu/Desktop/Unity/MMO_RPG/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup></ItemGroup>
