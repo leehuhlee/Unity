@@ -71,6 +71,8 @@
     <Compile Include="Assets\Scripts\Managers\ResourceManager.cs" />
     <Compile Include="Assets\Scripts\Managers\UIManager.cs" />
     <Compile Include="Assets\Scripts\Scenes\BaseScene.cs" />
+    <Compile Include="Assets\Scripts\Scenes\GameScene.cs" />
+    <Compile Include="Assets\Scripts\Scenes\LoginScene.cs" />
     <Compile Include="Assets\Scripts\UI\Popup\UI_Button.cs" />
     <Compile Include="Assets\Scripts\UI\Popup\UI_Popup.cs" />
     <Compile Include="Assets\Scripts\UI\Scene\UI_Inven.cs" />
