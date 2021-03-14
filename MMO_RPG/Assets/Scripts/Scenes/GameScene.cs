@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GameScene : BaseScene
 {
+    Coroutine co;
+
     protected override void Init()
     {
         base.Init();
@@ -12,8 +14,29 @@ public class GameScene : BaseScene
 
         Managers.UI.ShowSceneUI<UI_Inven>();
 
-        for (int i = 0; i < 5; i++)
-            Managers.Resource.Instantiate("UnityChan");
+        co = StartCoroutine("ExplodeAfterSeconds", 4.0f);
+        StartCoroutine("CoStopExplode", 6.0f);
+    }
+
+    IEnumerator CoStopExplode(float seconds)
+    {
+        Debug.Log("Stop Enter");
+        yield return new WaitForSeconds(seconds);
+        Debug.Log("Stop Execute!");
+
+        if (co != null)
+        {
+            StopCoroutine(co);
+            co = null;
+        }
+    }
+
+    IEnumerator ExplodeAfterSeconds(float seconds)
+    {
+        Debug.Log("Explode Enter");
+        yield return new WaitForSeconds(seconds);
+        Debug.Log("Explode Execute!");
+        co = null;
     }
 
     public override void Clear()
