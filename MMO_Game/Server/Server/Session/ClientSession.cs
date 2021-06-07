@@ -36,7 +36,13 @@ namespace Server
 		public override void OnConnected(EndPoint endPoint)
 		{
 			Console.WriteLine($"OnConnected : {endPoint}");
+            
+			{
+				S_Connected connectedPacket = new S_Connected();
+				Send(connectedPacket);
+            }
 
+			// TODO: Select Character in Robby
 			MyPlayer = ObjectManager.Instance.Add<Player>();
             {
 				MyPlayer.Info.Name = $"Player_{MyPlayer.Info.ObjectId}";
@@ -52,6 +58,7 @@ namespace Server
 				MyPlayer.Session = this;
             }
 
+			// TODO: Enter Request
 			GameRoom room = RoomManager.Instance.Find(1);
 			room.Push(room.EnterGame, MyPlayer);
 		}
