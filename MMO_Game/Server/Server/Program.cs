@@ -10,6 +10,7 @@ using Google.Protobuf;
 using Google.Protobuf.Protocol;
 using Google.Protobuf.WellKnownTypes;
 using Server.Data;
+using Server.DB;
 using Server.Game;
 using ServerCore;
 
@@ -35,6 +36,13 @@ namespace Server
 		{
 			ConfigManager.LoadConfig();
 			DataManager.LoadData();
+
+			// DB Test
+			using(AppDbContext db = new AppDbContext())
+            {
+				db.Accounts.Add(new AccountDb() { AccountName = "TestAccount" });
+				db.SaveChanges();
+            }
 
 			GameRoom room = RoomManager.Instance.Add(1);
 			TickRoom(room, 50);
