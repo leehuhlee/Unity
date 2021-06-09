@@ -18,8 +18,14 @@ namespace Server
 
 		public void HandleLogin(C_Login loginPacket)
 		{
+			// TODO : 이런 저런 보안 체크
 			if (ServerState != PlayerServerState.ServerStateLogin)
 				return;
+
+			// TODO : 문제가 있긴 있다
+			// - 동시에 다른 사람이 같은 UniqueId을 보낸다면?
+			// - 악의적으로 여러번 보낸다면
+			// - 쌩뚱맞은 타이밍에 그냥 이 패킷을 보낸다면?
 
 			LobbyPlayers.Clear();
 
@@ -31,6 +37,7 @@ namespace Server
 
 				if (findAccount != null)
 				{
+					// AccountDbId 메모리에 기억
 					AccountDbId = findAccount.AccountDbId;
 
 					S_Login loginOk = new S_Login() { LoginOk = 1 };
@@ -38,6 +45,7 @@ namespace Server
 					{
 						LobbyPlayerInfo lobbyPlayer = new LobbyPlayerInfo()
 						{
+							PlayerDbId = playerDb.PlayerDbId,
 							Name = playerDb.PlayerName,
 							StatInfo = new StatInfo()
 							{
@@ -65,7 +73,9 @@ namespace Server
 				{
 					AccountDb newAccount = new AccountDb() { AccountName = loginPacket.UniqueId };
 					db.Accounts.Add(newAccount);
-					db.SaveChanges(); // TODO : Exception 
+					bool success = db.SaveChangesEx();
+					if (success == false)
+						return;
 
 					// AccountDbId 메모리에 기억
 					AccountDbId = newAccount.AccountDbId;
@@ -89,6 +99,7 @@ namespace Server
 
 			MyPlayer = ObjectManager.Instance.Add<Player>();
 			{
+				MyPlayer.PlayerDbId = playerInfo.PlayerDbId;
 				MyPlayer.Info.Name = playerInfo.Name;
 				MyPlayer.Info.PosInfo.State = CreatureState.Idle;
 				MyPlayer.Info.PosInfo.MoveDir = MoveDir.Down;
@@ -140,11 +151,14 @@ namespace Server
 					};
 
 					db.Players.Add(newPlayerDb);
-					db.SaveChanges(); // TODO : ExceptionHandling
+					bool success = db.SaveChangesEx();
+					if (success == false)
+						return;
 
 					// 메모리에 추가
 					LobbyPlayerInfo lobbyPlayer = new LobbyPlayerInfo()
 					{
+						PlayerDbId = newPlayerDb.PlayerDbId,
 						Name = createPacket.Name,
 						StatInfo = new StatInfo()
 						{

@@ -30,6 +30,7 @@ public class MyPlayerController : PlayerController
 
 	protected override void UpdateIdle()
 	{
+		// 이동 상태로 갈지 확인
 		if (_moveKeyPressed)
 		{
 			State = CreatureState.Moving;
@@ -60,6 +61,7 @@ public class MyPlayerController : PlayerController
 		Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, -10);
 	}
 
+	// 키보드 입력
 	void GetDirInput()
 	{
 		_moveKeyPressed = true;

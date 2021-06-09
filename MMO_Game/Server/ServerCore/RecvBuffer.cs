@@ -6,6 +6,7 @@ namespace ServerCore
 {
 	public class RecvBuffer
 	{
+		// [r][][w][][][][][][][]
 		ArraySegment<byte> _buffer;
 		int _readPos;
 		int _writePos;
@@ -33,10 +34,12 @@ namespace ServerCore
 			int dataSize = DataSize;
 			if (dataSize == 0)
 			{
+				// 남은 데이터가 없으면 복사하지 않고 커서 위치만 리셋
 				_readPos = _writePos = 0;
 			}
 			else
 			{
+				// 남은 찌끄레기가 있으면 시작 위치로 복사
 				Array.Copy(_buffer.Array, _buffer.Offset + _readPos, _buffer.Array, _buffer.Offset, dataSize);
 				_readPos = 0;
 				_writePos = dataSize;

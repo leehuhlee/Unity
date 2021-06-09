@@ -40,6 +40,7 @@ namespace Server
 			GameRoom room = RoomManager.Instance.Add(1);
 			TickRoom(room, 50);
 
+			// DNS (Domain Name System)
 			string host = Dns.GetHostName();
 			IPHostEntry ipHost = Dns.GetHostEntry(host);
 			IPAddress ipAddr = ipHost.AddressList[0];
@@ -48,9 +49,13 @@ namespace Server
 			_listener.Init(endPoint, () => { return SessionManager.Instance.Generate(); });
 			Console.WriteLine("Listening...");
 
+			//FlushRoom();
+			//JobTimer.Instance.Push(FlushRoom);
+
+			// TODO
 			while (true)
 			{
-				Thread.Sleep(100);
+				DbTransaction.Instance.Flush();
 			}
 		}
 	}

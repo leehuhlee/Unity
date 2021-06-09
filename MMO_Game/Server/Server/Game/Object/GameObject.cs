@@ -50,7 +50,10 @@ namespace Server.Game
 			Info.StatInfo = Stat;
 		}
 
-		public virtual void Update() { }
+		public virtual void Update()
+		{
+
+		}
 
 		public Vector2Int CellPos
 		{

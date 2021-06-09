@@ -7,7 +7,7 @@ namespace Server.Game
 {
 	struct JobTimerElem : IComparable<JobTimerElem>
 	{
-		public int execTick;
+		public int execTick; // 실행 시간
 		public IJob job;
 
 		public int CompareTo(JobTimerElem other)

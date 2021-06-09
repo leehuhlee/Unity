@@ -21,11 +21,13 @@ namespace Server.Game
 		{
 			Map.LoadMap(mapId);
 
+			// TEMP
 			Monster monster = ObjectManager.Instance.Add<Monster>();
 			monster.CellPos = new Vector2Int(5, 5);
 			EnterGame(monster);
 		}
 
+		// 누군가 주기적으로 호출해줘야 한다
 		public void Update()
 		{
 			foreach (Monster monster in _monsters.Values)
@@ -56,6 +58,7 @@ namespace Server.Game
 
 				Map.ApplyMove(player, new Vector2Int(player.CellPos.x, player.CellPos.y));
 
+				// 본인한테 정보 전송
 				{
 					S_EnterGame enterPacket = new S_EnterGame();
 					enterPacket.Player = player.Info;
@@ -92,6 +95,7 @@ namespace Server.Game
 				projectile.Room = this;
 			}
 			
+			// 타인한테 정보 전송
 			{
 				S_Spawn spawnPacket = new S_Spawn();
 				spawnPacket.Objects.Add(gameObject.Info);
@@ -113,9 +117,11 @@ namespace Server.Game
 				if (_players.Remove(objectId, out player) == false)
 					return;
 
+				player.OnLeaveGame();
 				Map.ApplyLeave(player);
 				player.Room = null;
 
+				// 본인한테 정보 전송
 				{
 					S_LeaveGame leavePacket = new S_LeaveGame();
 					player.Session.Send(leavePacket);
@@ -139,6 +145,7 @@ namespace Server.Game
 				projectile.Room = null;
 			}
 
+			// 타인한테 정보 전송
 			{
 				S_Despawn despawnPacket = new S_Despawn();
 				despawnPacket.ObjectIds.Add(objectId);
@@ -155,9 +162,11 @@ namespace Server.Game
 			if (player == null)
 				return;
 
+			// TODO : 검증
 			PositionInfo movePosInfo = movePacket.PosInfo;
 			ObjectInfo info = player.Info;
 
+			// 다른 좌표로 이동할 경우, 갈 수 있는지 체크
 			if (movePosInfo.PosX != info.PosInfo.PosX || movePosInfo.PosY != info.PosInfo.PosY)
 			{
 				if (Map.CanGo(new Vector2Int(movePosInfo.PosX, movePosInfo.PosY)) == false)
@@ -168,6 +177,7 @@ namespace Server.Game
 			info.PosInfo.MoveDir = movePosInfo.MoveDir;
 			Map.ApplyMove(player, new Vector2Int(movePosInfo.PosX, movePosInfo.PosY));
 
+			// 다른 플레이어한테도 알려준다
 			S_Move resMovePacket = new S_Move();
 			resMovePacket.ObjectId = player.Info.ObjectId;
 			resMovePacket.PosInfo = movePacket.PosInfo;
@@ -184,6 +194,7 @@ namespace Server.Game
 			if (info.PosInfo.State != CreatureState.Idle)
 				return;
 
+			// TODO : 스킬 사용 가능 여부 체크
 			info.PosInfo.State = CreatureState.Skill;
 			S_Skill skill = new S_Skill() { Info = new SkillInfo() };
 			skill.ObjectId = info.ObjectId;

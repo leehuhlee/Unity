@@ -48,7 +48,10 @@ public class CreatureController : BaseController
 		AddHpBar();
 	}
 
-	public virtual void OnDamaged() { }
+	public virtual void OnDamaged()
+	{
+
+	}
 
 	public virtual void OnDead()
 	{
@@ -60,5 +63,8 @@ public class CreatureController : BaseController
 		GameObject.Destroy(effect, 0.5f);
 	}
 
-	public virtual void UseSkill(int skillId) { }
+	public virtual void UseSkill(int skillId)
+	{
+
+	}
 }

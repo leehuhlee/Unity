@@ -6,7 +6,7 @@ namespace PacketGenerator
 {
 	class PacketFormat
 	{
-		// {0} Packet Assign
+		// {0} 패킷 등록
 		public static string managerFormat =
 @"using Google.Protobuf;
 using Google.Protobuf.Protocol;
@@ -76,7 +76,7 @@ class PacketManager
 }}";
 
 		// {0} MsgId
-		// {1} Packet Name
+		// {1} 패킷 이름
 		public static string managerRegisterFormat =
 @"		
 		_onRecv.Add((ushort)MsgId.{0}, MakePacket<{1}>);

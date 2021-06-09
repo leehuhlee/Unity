@@ -13,6 +13,7 @@ namespace Server.Game
 		{
 			ObjectType = GameObjectType.Monster;
 
+			// TEMP
 			Stat.Level = 1;
 			Stat.Hp = 100;
 			Stat.MaxHp = 100;
@@ -21,6 +22,7 @@ namespace Server.Game
 			State = CreatureState.Idle;
 		}
 
+		// FSM (Finite State Machine)
 		public override void Update()
 		{
 			switch (State)
@@ -100,6 +102,7 @@ namespace Server.Game
 				return;
 			}
 
+			// 스킬로 넘어갈지 체크
 			if (dist <= _skillRange && (dir.x == 0 || dir.y == 0))
 			{
 				_coolTick = 0;
@@ -107,6 +110,7 @@ namespace Server.Game
 				return;
 			}
 
+			// 이동
 			Dir = GetDirFromVec(path[1] - CellPos);
 			Room.Map.ApplyMove(this, path[1]);
 			BroadcastMove();
@@ -114,6 +118,7 @@ namespace Server.Game
 
 		void BroadcastMove()
 		{
+			// 다른 플레이어한테도 알려준다
 			S_Move movePacket = new S_Move();
 			movePacket.ObjectId = Id;
 			movePacket.PosInfo = PosInfo;
@@ -125,6 +130,7 @@ namespace Server.Game
 		{
 			if (_coolTick == 0)
 			{
+				// 유효한 타겟인지
 				if (_target == null || _target.Room != Room || _target.Hp == 0)
 				{
 					_target = null;
@@ -133,6 +139,7 @@ namespace Server.Game
 					return;
 				}
 
+				// 스킬이 아직 사용 가능한지
 				Vector2Int dir = (_target.CellPos - CellPos);
 				int dist = dir.cellDistFromZero;
 				bool canUseSkill = (dist <= _skillRange && (dir.x == 0 || dir.y == 0));
@@ -143,6 +150,7 @@ namespace Server.Game
 					return;
 				}
 
+				// 타게팅 방향 주시
 				MoveDir lookDir = GetDirFromVec(dir);
 				if (Dir != lookDir)
 				{
@@ -153,13 +161,16 @@ namespace Server.Game
 				Skill skillData = null;
 				DataManager.SkillDict.TryGetValue(1, out skillData);
 
+				// 데미지 판정
 				_target.OnDamaged(this, skillData.damage + Stat.Attack);
 
+				// 스킬 사용 Broadcast
 				S_Skill skill = new S_Skill() { Info = new SkillInfo() };
 				skill.ObjectId = Id;
 				skill.Info.SkillId = skillData.id;
 				Room.Broadcast(skill);
 
+				// 스킬 쿨타임 적용
 				int coolTick = (int)(1000 * skillData.cooldown);
 				_coolTick = Environment.TickCount64 + coolTick;
 			}

@@ -263,13 +263,17 @@ public class BaseController : MonoBehaviour
 		}
 	}
 
-	protected virtual void UpdateIdle() { }
+	protected virtual void UpdateIdle()
+	{
+	}
 
+	// 스르륵 이동하는 것을 처리
 	protected virtual void UpdateMoving()
 	{
 		Vector3 destPos = Managers.Map.CurrentGrid.CellToWorld(CellPos) + new Vector3(0.5f, 0.5f);
 		Vector3 moveDir = destPos - transform.position;
 
+		// 도착 여부 체크
 		float dist = moveDir.magnitude;
 		if (dist < Speed * Time.deltaTime)
 		{
@@ -283,9 +287,18 @@ public class BaseController : MonoBehaviour
 		}
 	}
 
-	protected virtual void MoveToNextPos() { }
+	protected virtual void MoveToNextPos()
+	{
 
-	protected virtual void UpdateSkill() { }
+	}
 
-	protected virtual void UpdateDead() { }
+	protected virtual void UpdateSkill()
+	{
+
+	}
+
+	protected virtual void UpdateDead()
+	{
+
+	}
 }
