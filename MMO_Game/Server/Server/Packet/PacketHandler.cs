@@ -17,7 +17,7 @@ class PacketHandler
 		ClientSession clientSession = session as ClientSession;
 
 		Player player = clientSession.MyPlayer;
-		if (clientSession.MyPlayer == null)
+		if (player == null)
 			return;
 
 		GameRoom room = player.Room;
@@ -28,7 +28,7 @@ class PacketHandler
 	}
 
 	public static void C_SkillHandler(PacketSession session, IMessage packet)
-    {
+	{
 		C_Skill skillPacket = packet as C_Skill;
 		ClientSession clientSession = session as ClientSession;
 
@@ -41,7 +41,7 @@ class PacketHandler
 			return;
 
 		room.Push(room.HandleSkill, player, skillPacket);
-    }
+	}
 
 	public static void C_LoginHandler(PacketSession session, IMessage packet)
 	{
@@ -51,14 +51,16 @@ class PacketHandler
 	}
 
 	public static void C_EnterGameHandler(PacketSession session, IMessage packet)
-    {
+	{
 		C_EnterGame enterGamePacket = (C_EnterGame)packet;
 		ClientSession clientSession = (ClientSession)session;
-    }
+		clientSession.HandleEnterGame(enterGamePacket);
+	}
 
 	public static void C_CreatePlayerHandler(PacketSession session, IMessage packet)
 	{
 		C_CreatePlayer createPlayerPacket = (C_CreatePlayer)packet;
 		ClientSession clientSession = (ClientSession)session;
+		clientSession.HandleCreatePlayer(createPlayerPacket);
 	}
 }

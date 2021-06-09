@@ -32,8 +32,7 @@ class PacketManager
 	public Action<PacketSession, IMessage, ushort> CustomHandler {{ get; set; }}
 
 	public void Register()
-	{{
-		{0}
+	{{{0}
 	}}
 
 	public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer)
@@ -55,7 +54,7 @@ class PacketManager
 		T pkt = new T();
 		pkt.MergeFrom(buffer.Array, buffer.Offset + 4, buffer.Count - 4);
 
-		if(CustomHandler != null)
+		if (CustomHandler != null)
 		{{
 			CustomHandler.Invoke(session, pkt, id);
 		}}

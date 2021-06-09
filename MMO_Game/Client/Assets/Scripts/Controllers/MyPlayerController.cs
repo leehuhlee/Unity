@@ -28,6 +28,33 @@ public class MyPlayerController : PlayerController
 		base.UpdateController();
 	}
 
+	protected override void UpdateIdle()
+	{
+		if (_moveKeyPressed)
+		{
+			State = CreatureState.Moving;
+			return;
+		}
+
+		if (_coSkillCooltime == null && Input.GetKey(KeyCode.Space))
+		{
+			Debug.Log("Skill !");
+
+			C_Skill skill = new C_Skill() { Info = new SkillInfo() };
+			skill.Info.SkillId = 2;
+			Managers.Network.Send(skill);
+
+			_coSkillCooltime = StartCoroutine("CoInputCooltime", 0.2f);
+		}
+	}
+
+	Coroutine _coSkillCooltime;
+	IEnumerator CoInputCooltime(float time)
+	{
+		yield return new WaitForSeconds(time);
+		_coSkillCooltime = null;
+	}
+
 	void LateUpdate()
 	{
 		Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, -10);
@@ -57,36 +84,6 @@ public class MyPlayerController : PlayerController
 		{
 			_moveKeyPressed = false;
 		}
-	}
-
-	protected override void UpdateIdle()
-	{
-		if (_moveKeyPressed)
-		{
-			State = CreatureState.Moving;
-			return;
-		}
-
-		if (_coSkillCooltime == null && Input.GetKey(KeyCode.Space))
-		{
-			Debug.Log("Skill");
-
-			C_Skill skill = new C_Skill() { Info = new SkillInfo() };
-			// Normal Skill = 1
-			// Arrow Skill = 2
-			skill.Info.SkillId = 2;
-			Managers.Network.Send(skill);
-
-			_coSkillCooltime = StartCoroutine("CoInputCooltime", 0.2f);
-		}
-	}
-
-	Coroutine _coSkillCooltime;
-	IEnumerator CoInputCooltime(float time)
-    {
-		yield return new WaitForSeconds(time);
-		_coSkillCooltime = null;
-
 	}
 
 	protected override void MoveToNextPos()
@@ -128,13 +125,13 @@ public class MyPlayerController : PlayerController
 	}
 
 	protected override void CheckUpdatedFlag()
-    {
-        if (_updated)
-        {
+	{
+		if (_updated)
+		{
 			C_Move movePacket = new C_Move();
 			movePacket.PosInfo = PosInfo;
 			Managers.Network.Send(movePacket);
 			_updated = false;
 		}
-    }
+	}
 }

@@ -10,9 +10,9 @@ namespace Server.Migrations
                 name: "Account",
                 columns: table => new
                 {
-                    AccountDbId = table.Column<int>(type: "int", nullable: false)
+                    AccountDbId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AccountName = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    AccountName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -23,10 +23,16 @@ namespace Server.Migrations
                 name: "Player",
                 columns: table => new
                 {
-                    PlayerDbId = table.Column<int>(type: "int", nullable: false)
+                    PlayerDbId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PlayerName = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    AccountDbId = table.Column<int>(type: "int", nullable: true)
+                    PlayerName = table.Column<string>(nullable: true),
+                    AccountDbId = table.Column<int>(nullable: false),
+                    Level = table.Column<int>(nullable: false),
+                    Hp = table.Column<int>(nullable: false),
+                    MaxHp = table.Column<int>(nullable: false),
+                    Attack = table.Column<int>(nullable: false),
+                    Speed = table.Column<float>(nullable: false),
+                    TotalExp = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -36,7 +42,7 @@ namespace Server.Migrations
                         column: x => x.AccountDbId,
                         principalTable: "Account",
                         principalColumn: "AccountDbId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

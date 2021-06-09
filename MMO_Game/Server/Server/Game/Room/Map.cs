@@ -30,7 +30,7 @@ namespace Server.Game
 	}
 
 	public struct Vector2Int
-    {
+	{
 		public int x;
 		public int y;
 
@@ -41,18 +41,18 @@ namespace Server.Game
 		public static Vector2Int left { get { return new Vector2Int(-1, 0); } }
 		public static Vector2Int right { get { return new Vector2Int(1, 0); } }
 
-		public static Vector2Int operator +(Vector2Int a, Vector2Int b)
-        {
+		public static Vector2Int operator+(Vector2Int a, Vector2Int b)
+		{
 			return new Vector2Int(a.x + b.x, a.y + b.y);
-        }
+		}
 
 		public static Vector2Int operator -(Vector2Int a, Vector2Int b)
 		{
 			return new Vector2Int(a.x - b.x, a.y - b.y);
 		}
 
-		public float magnitude { get { return (float)Math.Sqrt(sqrtMagnitude); } }
-		public int sqrtMagnitude { get { return (x * x + y * y); } }
+		public float magnitude { get { return (float)Math.Sqrt(sqrMagnitude); } }
+		public int sqrMagnitude { get { return (x * x + y * y); } }
 		public int cellDistFromZero { get { return Math.Abs(x) + Math.Abs(y); } }
 	}
 
@@ -82,7 +82,7 @@ namespace Server.Game
 		}
 
 		public GameObject Find(Vector2Int cellPos)
-        {
+		{
 			if (cellPos.x < MinX || cellPos.x > MaxX)
 				return null;
 			if (cellPos.y < MinY || cellPos.y > MaxY)
@@ -100,7 +100,7 @@ namespace Server.Game
 			if (gameObject.Room.Map != this)
 				return false;
 
-			PositionInfo posInfo = gameObject.Info.PosInfo;
+			PositionInfo posInfo = gameObject.PosInfo;
 			if (posInfo.PosX < MinX || posInfo.PosX > MaxX)
 				return false;
 			if (posInfo.PosY < MinY || posInfo.PosY > MaxY)
@@ -117,7 +117,7 @@ namespace Server.Game
 		}
 
 		public bool ApplyMove(GameObject gameObject, Vector2Int dest)
-        {
+		{
 			ApplyLeave(gameObject);
 
 			if (gameObject.Room == null)
@@ -129,7 +129,7 @@ namespace Server.Game
 			if (CanGo(dest, true) == false)
 				return false;
 
-            {
+			{
 				int x = dest.x - MinX;
 				int y = MaxY - dest.y;
 				_objects[y, x] = gameObject;
@@ -138,7 +138,7 @@ namespace Server.Game
 			posInfo.PosX = dest.x;
 			posInfo.PosY = dest.y;
 			return true;
-        }
+		}
 
 		public void LoadMap(int mapId, string pathPrefix = "../../../../../Common/MapData")
 		{
@@ -264,4 +264,5 @@ namespace Server.Game
 
 		#endregion
 	}
+
 }

@@ -29,5 +29,5 @@ public class ArrowController : BaseController
 		base.Init();
 	}
 
-	protected override void UpdateAnimation() { }
+	protected override void UpdateAnimation(){	}
 }

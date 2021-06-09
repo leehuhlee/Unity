@@ -22,7 +22,7 @@ namespace Server
 		static List<System.Timers.Timer> _timers = new List<System.Timers.Timer>();
 
 		static void TickRoom(GameRoom room, int tick = 100)
-        {
+		{
 			var timer = new System.Timers.Timer();
 			timer.Interval = tick;
 			timer.Elapsed += ((s, e) => { room.Update(); });
@@ -30,7 +30,7 @@ namespace Server
 			timer.Enabled = true;
 
 			_timers.Add(timer);
-        }
+		}
 
 		static void Main(string[] args)
 		{

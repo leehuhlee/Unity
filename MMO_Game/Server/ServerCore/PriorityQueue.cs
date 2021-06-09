@@ -30,7 +30,6 @@ namespace ServerCore
 			}
 		}
 
-		// O(logN)
 		public T Pop()
 		{
 			T ret = _heap[0];

@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-
 namespace Server.Game
 {
 	public class GameObject
@@ -11,45 +10,45 @@ namespace Server.Game
 		public GameObjectType ObjectType { get; protected set; } = GameObjectType.None;
 		public int Id
 		{
-            get { return Info.ObjectId; }
-            set { Info.ObjectId = value; }
+			get { return Info.ObjectId; }
+			set { Info.ObjectId = value; }
 		}
 
-        public GameRoom Room { get; set; }
+		public GameRoom Room { get; set; }
 
-        public ObjectInfo Info { get; set; } = new ObjectInfo() { PosInfo = new PositionInfo() };
-        public PositionInfo PosInfo { get; private set; } = new PositionInfo();
+		public ObjectInfo Info { get; set; } = new ObjectInfo();
+		public PositionInfo PosInfo { get; private set; } = new PositionInfo();
 		public StatInfo Stat { get; private set; } = new StatInfo();
 
 		public float Speed
-        {
-            get { return Stat.Speed; }
-            set { Stat.Speed = value; }
-        }
+		{
+			get { return Stat.Speed; }
+			set { Stat.Speed = value; }
+		}
 
 		public int Hp
-        {
-            get { return Stat.Hp; }
-            set { Stat.Hp = Math.Clamp(value, 0, Stat.MaxHp); }
-        }
-
-		public MoveDir Dir 
 		{
-            get { return PosInfo.MoveDir; }
-            set { PosInfo.MoveDir = value; }
+			get { return Stat.Hp; }
+			set { Stat.Hp = Math.Clamp(value, 0, Stat.MaxHp); }
+		}
+
+		public MoveDir Dir
+		{
+			get { return PosInfo.MoveDir; }
+			set { PosInfo.MoveDir = value; }
 		}
 
 		public CreatureState State
-        {
-            get { return PosInfo.State; }
-            set { PosInfo.State = value; }
-        }
+		{
+			get { return PosInfo.State; }
+			set { PosInfo.State = value; }
+		}
 
 		public GameObject()
-        {
-            Info.PosInfo = PosInfo;
+		{
+			Info.PosInfo = PosInfo;
 			Info.StatInfo = Stat;
-        }
+		}
 
 		public virtual void Update() { }
 
@@ -68,9 +67,9 @@ namespace Server.Game
 		}
 
 		public Vector2Int GetFrontCellPos()
-        {
+		{
 			return GetFrontCellPos(PosInfo.MoveDir);
-        }
+		}
 
 		public Vector2Int GetFrontCellPos(MoveDir dir)
 		{
@@ -108,27 +107,25 @@ namespace Server.Game
 		}
 
 		public virtual void OnDamaged(GameObject attacker, int damage)
-        {
-			Stat.Hp = Math.Max(Stat.Hp - damage, 0);
+		{
+			if (Room == null)
+				return;
 
-			Stat.Hp -= damage;
-			if (Stat.Hp <= 0)
-				Stat.Hp = 0;
+			Stat.Hp = Math.Max(Stat.Hp - damage, 0);
 
 			S_ChangeHp changePacket = new S_ChangeHp();
 			changePacket.ObjectId = Id;
 			changePacket.Hp = Stat.Hp;
-
 			Room.Broadcast(changePacket);
 
-			if(Stat.Hp <= 0)
-            {
+			if (Stat.Hp <= 0)
+			{
 				OnDead(attacker);
-            }
-        }
+			}
+		}
 
 		public virtual void OnDead(GameObject attacker)
-        {
+		{
 			if (Room == null)
 				return;
 
@@ -147,6 +144,6 @@ namespace Server.Game
 			PosInfo.PosY = 0;
 
 			room.EnterGame(this);
-        }
+		}
 	}
 }

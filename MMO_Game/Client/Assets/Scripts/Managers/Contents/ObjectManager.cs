@@ -8,18 +8,18 @@ public class ObjectManager
 {
 	public MyPlayerController MyPlayer { get; set; }
 	Dictionary<int, GameObject> _objects = new Dictionary<int, GameObject>();
-
+	
 	public static GameObjectType GetObjectTypeById(int id)
-    {
+	{
 		int type = (id >> 24) & 0x7F;
 		return (GameObjectType)type;
-    }
+	}
 
 	public void Add(ObjectInfo info, bool myPlayer = false)
-    {
+	{
 		GameObjectType objectType = GetObjectTypeById(info.ObjectId);
-        if (objectType == GameObjectType.Player)
-        {
+		if (objectType == GameObjectType.Player)
+		{
 			if (myPlayer)
 			{
 				GameObject go = Managers.Resource.Instantiate("Creature/MyPlayer");
@@ -30,7 +30,7 @@ public class ObjectManager
 				MyPlayer.Id = info.ObjectId;
 				MyPlayer.PosInfo = info.PosInfo;
 				MyPlayer.Stat = info.StatInfo;
-				MyPlayer.syncPos();
+				MyPlayer.SyncPos();
 			}
 			else
 			{
@@ -42,10 +42,11 @@ public class ObjectManager
 				pc.Id = info.ObjectId;
 				pc.PosInfo = info.PosInfo;
 				pc.Stat = info.StatInfo;
-				pc.syncPos();
+				pc.SyncPos();
 			}
 		}
-        else if(objectType == GameObjectType.Monster){
+		else if (objectType == GameObjectType.Monster)
+		{
 			GameObject go = Managers.Resource.Instantiate("Creature/Monster");
 			go.name = info.Name;
 			_objects.Add(info.ObjectId, go);
@@ -54,9 +55,10 @@ public class ObjectManager
 			mc.Id = info.ObjectId;
 			mc.PosInfo = info.PosInfo;
 			mc.Stat = info.StatInfo;
-			mc.syncPos();
+			mc.SyncPos();
 		}
-		else if(objectType == GameObjectType.Projectile){
+		else if (objectType == GameObjectType.Projectile)
+		{
 			GameObject go = Managers.Resource.Instantiate("Creature/Arrow");
 			go.name = "Arrow";
 			_objects.Add(info.ObjectId, go);
@@ -64,8 +66,8 @@ public class ObjectManager
 			ArrowController ac = go.GetComponent<ArrowController>();
 			ac.PosInfo = info.PosInfo;
 			ac.Stat = info.StatInfo;
-			ac.syncPos();
-        }
+			ac.SyncPos();
+		}
 	}
 
 	public void Remove(int id)
@@ -73,16 +75,17 @@ public class ObjectManager
 		GameObject go = FindById(id);
 		if (go == null)
 			return;
+
 		_objects.Remove(id);
 		Managers.Resource.Destroy(go);
 	}
 
 	public GameObject FindById(int id)
-    {
+	{
 		GameObject go = null;
 		_objects.TryGetValue(id, out go);
 		return go;
-    }
+	}
 
 	public GameObject FindCreature(Vector3Int cellPos)
 	{
@@ -116,6 +119,5 @@ public class ObjectManager
 			Managers.Resource.Destroy(obj);
 		_objects.Clear();
 		MyPlayer = null;
-
 	}
 }

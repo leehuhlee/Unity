@@ -16,7 +16,7 @@ namespace Server.Game
 		}
 	}
 
-	class JobTimer
+	public class JobTimer
 	{
 		PriorityQueue<JobTimerElem> _pq = new PriorityQueue<JobTimerElem>();
 		object _lock = new object();
@@ -53,7 +53,7 @@ namespace Server.Game
 					_pq.Pop();
 				}
 
-				jobElement.job.Excute();
+				jobElement.job.Execute();
 			}
 		}
 	}

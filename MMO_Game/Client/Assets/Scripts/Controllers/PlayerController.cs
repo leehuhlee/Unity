@@ -7,7 +7,7 @@ using static Define;
 public class PlayerController : CreatureController
 {
 	protected Coroutine _coSkill;
-	bool _rangedSkill = false;
+	protected bool _rangedSkill = false;
 
 	protected override void Init()
 	{
@@ -92,22 +92,21 @@ public class PlayerController : CreatureController
 	}
 
 	protected override void UpdateController()
-	{
+	{		
 		base.UpdateController();
 	}
 
 	public override void UseSkill(int skillId)
-    {
-		if(skillId == 1)
-        {
+	{
+		if (skillId == 1)
+		{
 			_coSkill = StartCoroutine("CoStartPunch");
-        }
-
-		if(skillId == 2)
-        {
+		}
+		else if (skillId == 2)
+		{
 			_coSkill = StartCoroutine("CoStartShootArrow");
-        }
-    }
+		}
+	}
 
 	protected virtual void CheckUpdatedFlag() { }
 
