@@ -167,9 +167,26 @@ class PacketHandler
         }
 
 		// UI에서 표시
-		invenUI.gameObject.SetActive(true);
-		invenUI.RefreshUI();
+		//invenUI.gameObject.SetActive(true);
+		//invenUI.RefreshUI();
     }
+
+	public static void S_AddItemHandler(PacketSession session, IMessage packet)
+    {
+		S_AddItem itemList = (S_AddItem)packet;
+
+		UI_GameScene gameSceneUI = Managers.UI.SceneUI as UI_GameScene;
+		UI_Inventory invenUI = gameSceneUI.InvenUI;
+
+		// 메모리에 아이템 정보 적용
+		foreach (ItemInfo itemInfo in itemList.Items)
+		{
+			Item item = Item.MakeItem(itemInfo);
+			Managers.Inven.Add(item);
+		}
+
+		Debug.Log("Get Item!");
+	}
 }
 
 
