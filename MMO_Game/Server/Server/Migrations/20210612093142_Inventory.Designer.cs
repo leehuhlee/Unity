@@ -10,8 +10,8 @@ using Server.DB;
 namespace Server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210610203356_Init")]
-    partial class Init
+    [Migration("20210612093142_Inventory")]
+    partial class Inventory
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

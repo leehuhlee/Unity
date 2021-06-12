@@ -2,7 +2,7 @@
 
 namespace Server.Migrations
 {
-    public partial class Init : Migration
+    public partial class Inventory : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
