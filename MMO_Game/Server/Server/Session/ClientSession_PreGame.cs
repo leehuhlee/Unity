@@ -110,26 +110,27 @@ namespace Server
 
 				S_ItemList itemListPacket = new S_ItemList();
 
-				// 아이템 목록을 갖고온다
+				// 아이템 목록을 갖고 온다
 				using (AppDbContext db = new AppDbContext())
-                {
+				{
 					List<ItemDb> items = db.Items
 						.Where(i => i.OwnerDbId == playerInfo.PlayerDbId)
 						.ToList();
 
-					foreach(ItemDb itemDb in items)
-                    {
+					foreach (ItemDb itemDb in items)
+					{
 						Item item = Item.MakeItem(itemDb);
-						if(item != null)
-                        {
+						if (item != null)
+						{
 							MyPlayer.Inven.Add(item);
 
 							ItemInfo info = new ItemInfo();
 							info.MergeFrom(item.Info);
 							itemListPacket.Items.Add(info);
-                        }
+						}
 					}
-                }
+				}
+
 				Send(itemListPacket);
 			}
 

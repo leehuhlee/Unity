@@ -2,7 +2,7 @@
 
 namespace Server.Migrations
 {
-    public partial class Inventory : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -54,6 +54,7 @@ namespace Server.Migrations
                     TemplateId = table.Column<int>(nullable: false),
                     Count = table.Column<int>(nullable: false),
                     Slot = table.Column<int>(nullable: false),
+                    Equipped = table.Column<bool>(nullable: false),
                     OwnerDbId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>

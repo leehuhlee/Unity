@@ -2,10 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UI_Stat : UI_Base
+public class UI_Stat : MonoBehaviour
 {
-    public override void Init()
+    // Start is called before the first frame update
+    void Start()
     {
+        
+    }
 
+    // Update is called once per frame
+    void Update()
+    {
+        
     }
 }

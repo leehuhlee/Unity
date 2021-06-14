@@ -48,6 +48,9 @@ namespace Server.Migrations
                     b.Property<int>("Count")
                         .HasColumnType("int");
 
+                    b.Property<bool>("Equipped")
+                        .HasColumnType("bit");
+
                     b.Property<int?>("OwnerDbId")
                         .HasColumnType("int");
 

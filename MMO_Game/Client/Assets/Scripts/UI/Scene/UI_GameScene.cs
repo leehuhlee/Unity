@@ -8,7 +8,7 @@ public class UI_GameScene : UI_Scene
     public UI_Inventory InvenUI { get; private set; }
 
     public override void Init()
-    {
+	{
         base.Init();
 
         StatUI = GetComponentInChildren<UI_Stat>();
@@ -16,6 +16,5 @@ public class UI_GameScene : UI_Scene
 
         StatUI.gameObject.SetActive(false);
         InvenUI.gameObject.SetActive(false);
-
-    }
+	}
 }

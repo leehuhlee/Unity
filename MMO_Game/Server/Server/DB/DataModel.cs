@@ -35,14 +35,15 @@ namespace Server.DB
 
 	[Table("Item")]
 	public class ItemDb
-    {
+	{
 		public int ItemDbId { get; set; }
 		public int TemplateId { get; set; }
 		public int Count { get; set; }
-		public int Slot { get; set;}
+		public int Slot { get; set; }
+		public bool Equipped { get; set; } = false;
 
 		[ForeignKey("Owner")]
 		public int? OwnerDbId { get; set; }
-		public PlayerDb Owner { get; set; } 
-    }
+		public PlayerDb Owner { get; set; }
+	}
 }

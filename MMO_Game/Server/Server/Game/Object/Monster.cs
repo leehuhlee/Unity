@@ -18,7 +18,7 @@ namespace Server.Game
 		}
 
 		public void Init(int templateId)
-        {
+		{
 			TemplateId = templateId;
 
 			MonsterData monsterData = null;
@@ -137,7 +137,7 @@ namespace Server.Game
 			if (_coolTick == 0)
 			{
 				// 유효한 타겟인지
-				if (_target == null || _target.Room != Room || _target.Hp == 0)
+				if (_target == null || _target.Room != Room)
 				{
 					_target = null;
 					State = CreatureState.Moving;
@@ -168,7 +168,7 @@ namespace Server.Game
 				DataManager.SkillDict.TryGetValue(1, out skillData);
 
 				// 데미지 판정
-				_target.OnDamaged(this, skillData.damage + Stat.Attack);
+				_target.OnDamaged(this, skillData.damage + TotalAttack);
 
 				// 스킬 사용 Broadcast
 				S_Skill skill = new S_Skill() { Info = new SkillInfo() };
@@ -197,35 +197,36 @@ namespace Server.Game
 			base.OnDead(attacker);
 
 			GameObject owner = attacker.GetOwner();
-			if(owner.ObjectType == GameObjectType.Player)
-            {
-				RewardData rewardData = GetRendomReward();
-				if(rewardData != null)
-                {
+			if (owner.ObjectType == GameObjectType.Player)
+			{
+				RewardData rewardData = GetRandomReward();
+				if (rewardData != null)
+				{
 					Player player = (Player)owner;
 					DbTransaction.RewardPlayer(player, rewardData, Room);
-                }
-            }
+				}
+			}
 		}
 
-		RewardData GetRendomReward()
-        {
+		RewardData GetRandomReward()
+		{
 			MonsterData monsterData = null;
 			DataManager.MonsterDict.TryGetValue(TemplateId, out monsterData);
-			
-			int rand = new Random().Next(0,101);
+
+			int rand = new Random().Next(0, 101);
 
 			int sum = 0;
-            foreach (RewardData rewardData in monsterData.rewards)
-            {
+			foreach (RewardData rewardData in monsterData.rewards)
+			{
 				sum += rewardData.probability;
-				if(rand <= sum)
-                {
+
+				if (rand <= sum)
+				{
 					return rewardData;
-                }
-            }
+				}
+			}
 
 			return null;
-        }
+		}
 	}
 }

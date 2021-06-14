@@ -69,22 +69,23 @@ namespace Server.Data
 	}
 
 	public class WeaponData : ItemData
-    {
+	{
 		public WeaponType weaponType;
 		public int damage;
-    }
+	}
 
 	public class ArmorData : ItemData
 	{
 		public ArmorType armorType;
 		public int defence;
-    }
+	}
 
 	public class ConsumableData : ItemData
-    {
+	{
 		public ConsumableType consumableType;
 		public int maxCount;
-    }
+	}
+
 
 	[Serializable]
 	public class ItemLoader : ILoader<int, ItemData>
@@ -97,7 +98,7 @@ namespace Server.Data
 		{
 			Dictionary<int, ItemData> dict = new Dictionary<int, ItemData>();
 			foreach (ItemData item in weapons)
-            {
+			{
 				item.itemType = ItemType.Weapon;
 				dict.Add(item.id, item);
 			}
@@ -111,30 +112,29 @@ namespace Server.Data
 				item.itemType = ItemType.Consumable;
 				dict.Add(item.id, item);
 			}
-
 			return dict;
 		}
-    }
+	}
 	#endregion
 
 	#region Monster
 	[Serializable]
 	public class RewardData
-    {
+	{
 		public int probability; // 100분율
 		public int itemId;
 		public int count;
-    }
+	}
 
 	[Serializable]
 	public class MonsterData
-    {
+	{
 		public int id;
 		public string name;
 		public StatInfo stat;
 		public List<RewardData> rewards;
 		//public string prefabPath;
-    }
+	}
 
 	[Serializable]
 	public class MonsterLoader : ILoader<int, MonsterData>
@@ -151,5 +151,6 @@ namespace Server.Data
 			return dict;
 		}
 	}
+
 	#endregion
 }

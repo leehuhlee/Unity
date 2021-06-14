@@ -39,10 +39,10 @@ namespace Data
 			return dict;
 		}
 	}
-    #endregion
+	#endregion
 
-    #region Item
-    [Serializable]
+	#region Item
+	[Serializable]
 	public class ItemData
 	{
 		public int id;
@@ -72,6 +72,7 @@ namespace Data
 		public int maxCount;
 	}
 
+
 	[Serializable]
 	public class ItemLoader : ILoader<int, ItemData>
 	{
@@ -97,13 +98,13 @@ namespace Data
 				item.itemType = ItemType.Consumable;
 				dict.Add(item.id, item);
 			}
-
 			return dict;
 		}
 	}
 	#endregion
 
 	#region Monster
+
 	[Serializable]
 	public class MonsterData
 	{
@@ -128,5 +129,6 @@ namespace Data
 			return dict;
 		}
 	}
+
 	#endregion
 }

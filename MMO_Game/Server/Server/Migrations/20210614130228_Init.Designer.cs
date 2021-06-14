@@ -10,8 +10,8 @@ using Server.DB;
 namespace Server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210612093142_Inventory")]
-    partial class Inventory
+    [Migration("20210614130228_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -49,6 +49,9 @@ namespace Server.Migrations
 
                     b.Property<int>("Count")
                         .HasColumnType("int");
+
+                    b.Property<bool>("Equipped")
+                        .HasColumnType("bit");
 
                     b.Property<int?>("OwnerDbId")
                         .HasColumnType("int");
