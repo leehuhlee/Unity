@@ -181,8 +181,8 @@ class PacketHandler
 		Debug.Log("Get Item!");
 
 		UI_GameScene gameSceneUI = Managers.UI.SceneUI as UI_GameScene;
-		UI_Inventory invenUI = gameSceneUI.InvenUI;
-		invenUI.RefreshUI();
+		gameSceneUI.InvenUI.RefreshUI();
+		gameSceneUI.StatUI.RefreshUI();
 
 		if (Managers.Object.MyPlayer != null)
 			Managers.Object.MyPlayer.RefreshAdditionalStat();
@@ -201,8 +201,8 @@ class PacketHandler
 		Debug.Log("Change setted item!");
 
 		UI_GameScene gameSceneUI = Managers.UI.SceneUI as UI_GameScene;
-		UI_Inventory invenUI = gameSceneUI.InvenUI;
-		invenUI.RefreshUI();
+		gameSceneUI.InvenUI.RefreshUI();
+		gameSceneUI.StatUI.RefreshUI();
 
 		if (Managers.Object.MyPlayer != null)
 			Managers.Object.MyPlayer.RefreshAdditionalStat();
