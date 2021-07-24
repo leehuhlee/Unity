@@ -19,7 +19,10 @@ namespace Server
 
 		public Player MyPlayer { get; set; }
 		public int SessionId { get; set; }
-		
+
+		object _lock = new object();
+		List<ArraySegment<byte>> _reserveQueue = new List<ArraySegment<byte>>();
+
 		#region Network
 		public void Send(IMessage packet)
 		{
@@ -30,8 +33,28 @@ namespace Server
 			Array.Copy(BitConverter.GetBytes((ushort)(size + 4)), 0, sendBuffer, 0, sizeof(ushort));
 			Array.Copy(BitConverter.GetBytes((ushort)msgId), 0, sendBuffer, 2, sizeof(ushort));
 			Array.Copy(packet.ToByteArray(), 0, sendBuffer, 4, size);
-			Send(new ArraySegment<byte>(sendBuffer));
+
+            lock (_lock)
+            {
+				_reserveQueue.Add(sendBuffer);
+			}
 		}
+
+		public void FlushSend()
+        {
+			List<ArraySegment<byte>> sendList = null;
+
+            lock (_lock)
+            {
+				if (_reserveQueue.Count == 0)
+					return;
+
+				sendList = _reserveQueue;
+				_reserveQueue = new List<ArraySegment<byte>>();
+            }
+
+			Send(sendList);
+        }
 
 		public override void OnConnected(EndPoint endPoint)
 		{
@@ -50,18 +73,18 @@ namespace Server
 
 		public override void OnDisconnected(EndPoint endPoint)
 		{
-			GameRoom room = RoomManager.Instance.Find(1);
-			room.Push(room.LeaveGame, MyPlayer.Info.ObjectId);
-
+			GameLogic.Instance.Push(() =>
+			{
+				GameRoom room = GameLogic.Instance.Find(1);
+				room.Push(room.LeaveGame, MyPlayer.Info.ObjectId);
+			});
+			
 			SessionManager.Instance.Remove(this);
 
 			Console.WriteLine($"OnDisconnected : {endPoint}");
 		}
 
-		public override void OnSend(int numOfBytes)
-		{
-			//Console.WriteLine($"Transferred bytes: {numOfBytes}");
-		}
+		public override void OnSend(int numOfBytes){ }
 		#endregion
 	}
 }
