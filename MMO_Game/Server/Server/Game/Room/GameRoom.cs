@@ -55,9 +55,12 @@ namespace Server.Game
             }
 
 			// TEMP
-			Monster monster = ObjectManager.Instance.Add<Monster>();
-			monster.Init(1);
-			EnterGame(monster, randomPos: true);
+			for(int i=0; i<500; i++)
+            {
+				Monster monster = ObjectManager.Instance.Add<Monster>();
+				monster.Init(1);
+				EnterGame(monster, randomPos: true);
+			}
 		}
 
 		// 누군가 주기적으로 호출해줘야 한다
