@@ -27,14 +27,18 @@ namespace Server.Game
         {
 			int x = (cellPos.x - Map.MinX) / ZoneCells;
 			int y = (Map.MaxY - cellPos.y) / ZoneCells;
-
-			if (x < 0 || x >= Zones.GetLength(1))
-				return null;
-			if (y < 0 || y >= Zones.GetLength(0))
-				return null;
-
-			return Zones[y, x];
+			return GetZone(y, x);
         }
+
+		public Zone GetZone(int indexY, int indexX)
+        {
+			if (indexX < 0 || indexX >= Zones.GetLength(1))
+				return null;
+			if (indexY < 0 || indexY >= Zones.GetLength(0))
+				return null;
+
+			return Zones[indexY, indexX];
+		}
 
 		public void Init(int mapId, int zoneCells)
 		{
@@ -55,7 +59,7 @@ namespace Server.Game
             }
 
 			// TEMP
-			for(int i=0; i<500; i++)
+			for(int i=0; i<50; i++)
             {
 				Monster monster = ObjectManager.Instance.Add<Monster>();
 				monster.Init(1);
@@ -197,7 +201,7 @@ namespace Server.Game
 			}
 		}
 
-		public Player FindPlayer(Func<GameObject, bool> condition)
+		Player FindPlayer(Func<GameObject, bool> condition)
 		{
 			foreach (Player player in _players.Values)
 			{
@@ -207,6 +211,28 @@ namespace Server.Game
 
 			return null;
 		}
+
+		public Player FindClosestPlayer(Vector2Int pos, int range)
+        {
+			List<Player> players = GetAdjacentPlayers(pos, range);
+
+			players.Sort((left, right) =>
+			{
+				int leftDist = (left.CellPos - pos).cellDistFromZero;
+				int rightDist = (right.CellPos - pos).cellDistFromZero;
+				return leftDist - rightDist;
+			});
+
+			foreach(Player player in players)
+            {
+				List<Vector2Int> path = Map.FindPath(pos, player.CellPos, checkObjects: true);
+				if (path.Count < 2 || path.Count > range)
+					continue;
+
+				return player;
+			}
+			return null;
+        }
 
 		public void Broadcast(Vector2Int pos, IMessage packet)
 		{
@@ -225,11 +251,46 @@ namespace Server.Game
             }
 		}
 
-		public List<Zone> GetAdjacentZones(Vector2Int cellPos, int cells = GameRoom.VisionCells)
+		public List<Player> GetAdjacentPlayers(Vector2Int pos, int range)
+        {
+			List<Zone> zones = GetAdjacentZones(pos, range);
+			return zones.SelectMany(z => z.Players).ToList();
+        }
+
+		public List<Zone> GetAdjacentZones(Vector2Int cellPos, int range = GameRoom.VisionCells)
         {
 			HashSet<Zone> zones = new HashSet<Zone>();
 
-			int[] delta = new int[2] { -cells, +cells };
+			int maxY = cellPos.y + range;
+			int minY = cellPos.y - range;
+			int maxX = cellPos.x + range;
+			int minx = cellPos.x - range;
+
+			// 좌측 상단
+			Vector2Int leftTop = new Vector2Int(minx, maxY);
+
+			int minIndexY = (Map.MaxY - leftTop.y) / ZoneCells;
+			int minIndexX = (leftTop.x - Map.MinX) / ZoneCells;
+
+			// 우측 하단
+			Vector2Int rightBot = new Vector2Int(maxX, minY);
+
+			int maxIndexY = (Map.MaxY - rightBot.y) / ZoneCells;
+			int maxIndexX = (rightBot.x - Map.MinX) / ZoneCells;
+
+			for(int x = minIndexX; x<=maxIndexX; x++)
+            {
+				for(int y=minIndexY; y<=maxIndexY; y++)
+                {
+					Zone zone = GetZone(y, x);
+					if (zone == null)
+						continue;
+
+					zones.Add(zone);
+                }
+            }
+
+			int[] delta = new int[2] { -range, +range };
 			foreach(int dy in delta)
             {
 				foreach(int dx in delta)

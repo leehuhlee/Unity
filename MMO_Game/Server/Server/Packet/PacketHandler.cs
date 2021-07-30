@@ -85,6 +85,6 @@ class PacketHandler
 	public static void C_PongHandler(PacketSession session, IMessage packet)
     {
 		ClientSession clientSession = (ClientSession)session;
-		clientSession.HandlePoing();
+		clientSession.HandlePong();
     }
 }
