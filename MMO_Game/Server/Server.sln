@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PacketGenerator", "PacketGe
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{8B491CF6-3083-47E7-B38D-2FC74C64238F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DummyClient", "DummyClient\DummyClient.csproj", "{A0DEA78F-C112-4E51-BD8A-68BD52C39D4F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DummyClient", "DummyClient\DummyClient.csproj", "{A0DEA78F-C112-4E51-BD8A-68BD52C39D4F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccountServer", "AccountServer\AccountServer.csproj", "{4D5CED44-36A2-40BD-8C80-5D96D05F4FDA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,10 @@ Global
 		{A0DEA78F-C112-4E51-BD8A-68BD52C39D4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0DEA78F-C112-4E51-BD8A-68BD52C39D4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0DEA78F-C112-4E51-BD8A-68BD52C39D4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D5CED44-36A2-40BD-8C80-5D96D05F4FDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D5CED44-36A2-40BD-8C80-5D96D05F4FDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D5CED44-36A2-40BD-8C80-5D96D05F4FDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D5CED44-36A2-40BD-8C80-5D96D05F4FDA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
